@@ -2370,6 +2370,11 @@ domexception@^2.0.1:
   dependencies:
     webidl-conversions "^5.0.0"
 
+dooboolab-welcome@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/dooboolab-welcome/-/dooboolab-welcome-1.2.0.tgz#295818ce85a8e97dc90c0ec0510b4008e2d722dc"
+  integrity sha512-XgEbjJHAsKLge/e8jtuHsv84Ovg1Gx0GvnOTOmOlVGV1643nduTAkT3fyo/mxKbzvyXBr47RHaJAY4R2toI0UA==
+
 ecc-jsbn@~0.1.1:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/ecc-jsbn/-/ecc-jsbn-0.1.2.tgz#3a83a904e54353287874c564b7549386849a98c9"
@@ -5269,6 +5274,13 @@ react-is@^16.8.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
+react-native-audio-recorder-player@^2.6.2:
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/react-native-audio-recorder-player/-/react-native-audio-recorder-player-2.6.2.tgz#cfcc6d848b8269b9ad7c253dad5fcb7ad753be1a"
+  integrity sha512-pJ96DzDDp8tgMhNsvW2HbGBVj8M1KeZ9ZS3Z+yx5/WoRcBoDle7uVv5PyMub1ub8Dn+ct5ytjuJUz0po3lBCxQ==
+  dependencies:
+    dooboolab-welcome "^1.2.0"
+
 react-native-codegen@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/react-native-codegen/-/react-native-codegen-0.0.6.tgz#b3173faa879cf71bfade8d030f9c4698388f6909"
@@ -5277,6 +5289,16 @@ react-native-codegen@^0.0.6:
     flow-parser "^0.121.0"
     jscodeshift "^0.11.0"
     nullthrows "^1.1.1"
+
+react-native-safe-area-context@^3.0.5:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-3.2.0.tgz#06113c6b208f982d68ab5c3cebd199ca93db6941"
+  integrity sha512-k2Nty4PwSnrg9HwrYeeE+EYqViYJoOFwEy9LxL5RIRfoqxAq/uQXNGwpUg2/u4gnKpBbEPa9eRh15KKMe/VHkA==
+
+react-native-track-player@^1.2.7:
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/react-native-track-player/-/react-native-track-player-1.2.7.tgz#a721662fc32383cf2979a48b33db091140e88962"
+  integrity sha512-U1kA25qm398/kY6BvTojGHt4S1tYuKrJNQpXW+dA+p0B+n4LlPyoidUXfu951YM7aoisg8EmQPsevUFmcXG+cg==
 
 react-native@0.64.0:
   version "0.64.0"
