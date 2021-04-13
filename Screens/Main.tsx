@@ -17,7 +17,7 @@ import React, {Component} from 'react';
 import {ratio, screenWidth} from '../utils/Styles';
 
 import Button from '../Components/Button';
-
+import PlayerManager from '../Components/PlayerManager';
 const styles: any = StyleSheet.create({
   container: {
     flex: 1,
@@ -135,6 +135,7 @@ class Page extends Component<any, State> {
 
     return (
       <View style={styles.container}>
+        {/* <PlayerManager /> */}
         <Text style={styles.titleTxt}>{'Sound Recorder'}</Text>
         <Text style={styles.txtRecordCounter}>{this.state.recordTime}</Text>
         <View style={styles.viewRecorder}>
