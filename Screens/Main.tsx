@@ -48,6 +48,7 @@ const styles: any = StyleSheet.create({
     marginTop: 28 * ratio,
     marginHorizontal: 28 * ratio,
     alignSelf: 'stretch',
+    paddingVertical: 10,
   },
   viewBar: {
     backgroundColor: '#ccc',
@@ -216,11 +217,15 @@ class Page extends Component<any, State> {
 
     if (playWidth && playWidth < touchX) {
       const addSecs = Math.round(currentPosition + 1000);
-      this.audioRecorderPlayer.seekToPlayer(addSecs);
+      this.audioRecorderPlayer
+        .seekToPlayer(addSecs)
+        .catch(err => console.log(err.message));
       console.log(`addSecs: ${addSecs}`);
     } else {
       const subSecs = Math.round(currentPosition - 1000);
-      this.audioRecorderPlayer.seekToPlayer(subSecs);
+      this.audioRecorderPlayer
+        .seekToPlayer(subSecs)
+        .catch(err => console.log(err.message));
       console.log(`subSecs: ${subSecs}`);
     }
   };
