@@ -27,7 +27,7 @@ const styles: any = StyleSheet.create({
   timeText: {
     fontSize: 70,
     textAlign: 'center',
-    marginTop: '30%',
+    marginTop: '5%',
   },
   topHeader: {
     flexDirection: 'row',
@@ -134,7 +134,6 @@ const styles: any = StyleSheet.create({
 });
 
 interface State {
-  isLoggingIn: boolean;
   recordSecs: number;
   recordTime: string;
   currentPositionSec: number;
@@ -144,43 +143,10 @@ interface State {
   recordBtn: boolean;
   stopBtn: boolean;
   playBtn: boolean;
-  tabs: number;
+  isShowPlayer: boolean;
 }
 
-const audioList = [
-  {
-    text: '2020_03_25_14_00_02.mp3',
-    time: '24 March 2020, 7:00',
-    size: '2.2 MB',
-  },
-  {
-    text: '2020_03_25_14_00_02.mp3',
-    time: '24 March 2020, 7:00',
-    size: '2.3 MB',
-  },
-  {
-    text: '2020_03_25_14_00_02.mp3',
-    time: '24 March 2020, 7:00',
-    size: '2.22 MB',
-  },
-  {
-    text: '2020_03_25_14_00_02.mp3',
-    time: '24 March 2020, 7:00',
-    size: '2.4 MB',
-  },
-  {
-    text: '2020_03_25_14_00_02.mp3',
-    time: '24 March 2020, 7:00',
-    size: '2.9 MB',
-  },
-  {
-    text: '2020_03_25_14_00_02.mp3',
-    time: '24 March 2020, 7:00',
-    size: '2.9 MB',
-  },
-];
-
-class Page extends Component<any, State> {
+class SoundRecorder extends Component<any, State> {
   private audioRecorderPlayer: AudioRecorderPlayer;
 
   constructor(props: any) {
@@ -189,14 +155,13 @@ class Page extends Component<any, State> {
       recordBtn: false,
       stopBtn: false,
       playBtn: false,
-      tabs: 0,
-      isLoggingIn: false,
       recordSecs: 0,
       recordTime: '00:00:00',
       currentPositionSec: 0,
       currentDurationSec: 0,
       playTime: '00:00:00',
       duration: '00:00:00',
+      isShowPlayer: false,
     };
 
     this.audioRecorderPlayer = new AudioRecorderPlayer();
@@ -225,267 +190,47 @@ class Page extends Component<any, State> {
           />
           <Text style={{fontSize: 22, marginLeft: 10}}>Sound Recorder</Text>
         </View>
-        <View style={styles.topHeader}>
-          <TouchableOpacity
-            onPress={() => this.setState({tabs: 0})}
-            style={
-              this.state.tabs === 1 ? styles.headerBtn1 : styles.headerBtn
-            }>
-            <Text
-              style={
-                this.state.tabs === 1 ? styles.headerText : styles.headerText1
-              }>
-              RECORD
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => this.setState({tabs: 1})}
-            style={
-              this.state.tabs === 1 ? styles.headerBtn : styles.headerBtn1
-            }>
-            <Text
-              style={
-                this.state.tabs === 1 ? styles.headerText1 : styles.headerText
-              }>
-              RECORDINGS
-            </Text>
-          </TouchableOpacity>
-        </View>
-        {this.state.tabs === 0 ? (
-          <>
-            <Text style={styles.timeText}>00:00:00</Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                marginTop: '10%',
+        <View style={{alignItems: 'center'}}>
+          <Text style={styles.timeText}>{this.state.recordTime}</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              marginTop: '3%',
+            }}>
+            <TouchableOpacity
+              onPress={() => {
+                let isShowPlayer = false;
+                if (this.state.recordBtn) {
+                  this.onStopRecord();
+                  isShowPlayer = true;
+                } else {
+                  this.onStartRecord();
+                }
+                this.setState({
+                  recordBtn: !this.state.recordBtn,
+                  isShowPlayer,
+                });
               }}>
-              {this.state.stopBtn ? (
-                <TouchableOpacity
-                  onPress={() =>
-                    this.setState({
-                      stopBtn: !this.state.stopBtn,
-                      recordBtn: false,
-                      playBtn: false,
-                    })
-                  }>
-                  <Image
-                    style={{width: 100, height: 100}}
-                    source={require('../assets/image3_select.png')}
-                  />
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity
-                  onPress={() =>
-                    this.setState({
-                      stopBtn: !this.state.stopBtn,
-                      recordBtn: false,
-                      playBtn: false,
-                    })
-                  }>
-                  <Image
-                    style={{width: 100, height: 100}}
-                    source={require('../assets/image3.png')}
-                  />
-                </TouchableOpacity>
-              )}
-              {this.state.recordBtn ? (
-                <TouchableOpacity
-                  onPress={() =>
-                    this.setState({
-                      recordBtn: !this.state.recordBtn,
-                      stopBtn: false,
-                      playBtn: false,
-                    })
-                  }>
-                  <Image
-                    style={{width: 100, height: 100}}
-                    source={require('../assets/image1.png')}
-                  />
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity
-                  onPress={() =>
-                    this.setState({
-                      recordBtn: !this.state.recordBtn,
-                      stopBtn: false,
-                      playBtn: false,
-                    })
-                  }>
-                  <Image
-                    style={{width: 100, height: 100}}
-                    source={require('../assets/image1_select.png')}
-                  />
-                </TouchableOpacity>
-              )}
-              {this.state.playBtn ? (
-                <TouchableOpacity
-                  onPress={() =>
-                    this.setState({
-                      playBtn: !this.state.playBtn,
-                      recordBtn: false,
-                      stopBtn: false,
-                    })
-                  }>
-                  <Image
-                    style={{width: 100, height: 100}}
-                    source={require('../assets/image2_select.png')}
-                  />
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity
-                  onPress={() =>
-                    this.setState({
-                      playBtn: !this.state.playBtn,
-                      recordBtn: false,
-                      stopBtn: false,
-                    })
-                  }>
-                  <Image
-                    style={{width: 100, height: 100}}
-                    source={require('../assets/image2.png')}
-                  />
-                </TouchableOpacity>
-              )}
-            </View>
-          </>
-        ) : (
-          <>
-            <View style={{backgroundColor: '#424242', flex: 1}}>
-              {audioList.map(res => {
-                return (
-                  <TouchableOpacity
-                    onPress={() => this.setState({tabs: 0, playBtn: true})}
-                    style={{
-                      paddingLeft: '5%',
-                      paddingRight: '5%',
-                      paddingTop: '5%',
-                    }}>
-                    <Text style={{fontSize: 18, color: 'white'}}>
-                      {res.text}
-                    </Text>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                      }}>
-                      <Text style={{fontSize: 12, color: 'white'}}>
-                        {res.time}
-                      </Text>
-                      <Text style={{fontSize: 12, color: 'white'}}>
-                        {res.size}
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        borderBottomColor: 'white',
-                        borderBottomWidth: 1,
-                        marginTop: '4%',
-                      }}></View>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-          </>
-        )}
-
-        {/* <PlayerManager /> */}
-        {/* <Text style={styles.titleTxt}>{'Sound Recorder'}</Text>
-        <Text style={styles.txtRecordCounter}>{this.state.recordTime}</Text>
-        <View style={styles.viewRecorder}>
-          <View style={styles.recordBtnWrapper}>
-            <Button
-              style={styles.btn}
-              onPress={this.onStartRecord}
-              textStyle={styles.txt}>
-              {' Record'}
-            </Button>
-            <Button
-              style={[
-                styles.btn,
-                {
-                  marginLeft: 12 * ratio,
-                },
-              ]}
-              onPress={this.onStopRecord}
-              textStyle={styles.txt}>
-              {'Stop'}
-            </Button>
+              <Image
+                style={{width: 100, height: 100}}
+                source={
+                  this.state.recordBtn
+                    ? require('../assets/image1_select.png')
+                    : require('../assets/image2_select.png')
+                }
+              />
+            </TouchableOpacity>
           </View>
+          {this.state.isShowPlayer && <PlayerManager />}
         </View>
-        <View style={styles.viewPlayer}>
-          <TouchableOpacity
-            style={styles.viewBarWrapper}
-            onPress={this.onStatusPress}>
-            <View style={styles.viewBar}>
-              <View style={[styles.viewBarPlay, {width: playWidth}]} />
-            </View>
-          </TouchableOpacity>
-          <Text style={styles.txtCounter}>
-            {this.state.playTime} / {this.state.duration}
-          </Text>
-          <View style={styles.playBtnWrapper}>
-            <Button
-              style={styles.btn}
-              onPress={this.onStartPlay}
-              textStyle={styles.txt}>
-              {'Play'}
-            </Button>
-            <Button
-              style={[
-                styles.btn,
-                {
-                  marginLeft: 12 * ratio,
-                },
-              ]}
-              onPress={this.onPausePlay}
-              textStyle={styles.txt}>
-              {'Pause'}
-            </Button>
-            <Button
-              style={[
-                styles.btn,
-                {
-                  marginLeft: 12 * ratio,
-                },
-              ]}
-              onPress={this.onStopPlay}
-              textStyle={styles.txt}>
-              {'Stop'}
-            </Button>
-          </View>
-        </View> */}
+     
       </View>
     );
   }
 
-  private onStatusPress = (e: any) => {
-    const touchX = e.nativeEvent.locationX;
-    console.log(`touchX: ${touchX}`);
-    const playWidth =
-      (this.state.currentPositionSec / this.state.currentDurationSec) *
-      (screenWidth - 56 * ratio);
-    console.log(`currentPlayWidth: ${playWidth}`);
-
-    const currentPosition = Math.round(this.state.currentPositionSec);
-    console.log(`currentPosition: ${currentPosition}`);
-
-    if (playWidth && playWidth < touchX) {
-      const addSecs = Math.round(currentPosition + 1000);
-      this.audioRecorderPlayer
-        .seekToPlayer(addSecs)
-        .catch(err => console.log(err.message));
-      console.log(`addSecs: ${addSecs}`);
-    } else {
-      const subSecs = Math.round(currentPosition - 1000);
-      this.audioRecorderPlayer
-        .seekToPlayer(subSecs)
-        .catch(err => console.log(err.message));
-      console.log(`subSecs: ${subSecs}`);
-    }
-  };
-
   private onStartRecord = async () => {
+    // Recording will be start as click on the play icon
     if (Platform.OS === 'android') {
       try {
         const granted = await PermissionsAndroid.request(
@@ -496,6 +241,8 @@ class Page extends Component<any, State> {
             buttonPositive: 'ok',
           },
         );
+
+        // Get permitions from the user 
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           console.log('You can use the storage');
         } else {
@@ -549,7 +296,6 @@ class Page extends Component<any, State> {
         ),
       });
     });
-    console.log(`uri: ${uri}`);
   };
 
   private onStopRecord = async () => {
@@ -560,41 +306,6 @@ class Page extends Component<any, State> {
     });
     console.log(result);
   };
-
-  private onStartPlay = async () => {
-    console.log('onStartPlay');
-    const path = Platform.select({
-      ios: 'recording.m4a',
-      android: 'sdcard/recording.mp4',
-    });
-    const msg = await this.audioRecorderPlayer.startPlayer(path);
-    this.audioRecorderPlayer.setVolume(1.0);
-    console.log(msg);
-    this.audioRecorderPlayer.addPlayBackListener((e: any) => {
-      if (e.current_position === e.duration) {
-        console.log('finished');
-        this.audioRecorderPlayer.stopPlayer();
-      }
-      this.setState({
-        currentPositionSec: e.current_position,
-        currentDurationSec: e.duration,
-        playTime: this.audioRecorderPlayer.mmssss(
-          Math.floor(e.current_position),
-        ),
-        duration: this.audioRecorderPlayer.mmssss(Math.floor(e.duration)),
-      });
-    });
-  };
-
-  private onPausePlay = async () => {
-    await this.audioRecorderPlayer.pausePlayer();
-  };
-
-  private onStopPlay = async () => {
-    console.log('onStopPlay');
-    this.audioRecorderPlayer.stopPlayer();
-    this.audioRecorderPlayer.removePlayBackListener();
-  };
 }
 
-export default Page;
+export default SoundRecorder;

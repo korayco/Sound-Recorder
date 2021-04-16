@@ -3,7 +3,6 @@ import {StyleSheet, Text, View} from 'react-native';
 import TrackPlayer, {usePlaybackState} from 'react-native-track-player';
 
 import Player from './Player';
-// import playlistData from '../data/playlist.json';
 
 export default function PlayerManager() {
   const playbackState = usePlaybackState();
@@ -34,16 +33,15 @@ export default function PlayerManager() {
 
   async function togglePlayback() {
     const currentTrack = await TrackPlayer.getCurrentTrack();
+    let rec = {
+      id: 'local-track',
+      url: 'file:///sdcard/recording.mp4',
+      title: 'Recording',
+      artist: 'Koray Cosar',
+    };
     if (currentTrack == null) {
       await TrackPlayer.reset();
-      await TrackPlayer.add({
-        id: 'local-track',
-        url: 'file:///sdcard/recording.mp4',
-        title: 'Recording',
-        artist: 'Koray Cosar',
-        artwork: 'https://i.picsum.photos/id/500/200/200.jpg',
-        // duration: 28,
-      });
+      await TrackPlayer.add(rec);
       await TrackPlayer.play();
     } else {
       if (playbackState === TrackPlayer.STATE_PAUSED) {
@@ -51,52 +49,25 @@ export default function PlayerManager() {
       } else {
         await TrackPlayer.pause();
       }
+
+      if (playbackState === TrackPlayer.STATE_STOPPED) {
+        await TrackPlayer.reset();
+        await TrackPlayer.add(rec);
+        await TrackPlayer.play();
+      }
     }
   }
 
   return (
     <View style={{width: '80%'}}>
-      <Player
-        // onNext={skipToNext}
-        style={styles.player}
-        // onPrevious={skipToPrevious}
-        onTogglePlayback={togglePlayback}
-      />
-      <Text style={styles.state}>{getStateName(playbackState)}</Text>
+      <Player style={styles.player} onTogglePlayback={togglePlayback} />
     </View>
   );
 }
 
 PlayerManager.navigationOptions = {
-  title: 'Playlist Example',
+  title: 'Playlist',
 };
-
-function getStateName(state) {
-  switch (state) {
-    case TrackPlayer.STATE_NONE:
-      return 'None';
-    case TrackPlayer.STATE_PLAYING:
-      return 'Playing';
-    case TrackPlayer.STATE_PAUSED:
-      return 'Paused';
-    case TrackPlayer.STATE_STOPPED:
-      return 'Stopped';
-    case TrackPlayer.STATE_BUFFERING:
-      return 'Buffering';
-  }
-}
-
-async function skipToNext() {
-  try {
-    await TrackPlayer.skipToNext();
-  } catch (_) {}
-}
-
-async function skipToPrevious() {
-  try {
-    await TrackPlayer.skipToPrevious();
-  } catch (_) {}
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -109,9 +80,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     textAlign: 'center',
   },
-  player: {
-    // marginTop: 40,
-  },
+  player: {},
   state: {
     marginTop: 20,
   },

@@ -15,7 +15,6 @@ import {
 } from 'react-native';
 import Slider from '@react-native-community/slider';
 
-
 const ProgressBar = () => {
   const [isSeeking, setIsSeeking] = useState(false);
   const [seek, setSeek] = useState(0);
@@ -24,28 +23,30 @@ const ProgressBar = () => {
   const {duration, position} = progress;
 
   return (
-    <Slider
-      style={{
-        width: '100%',
-        height: 40,
-        justifyContent: 'center',
-        backgroundColor: 'red',
-      }}
-      minimumValue={0}
-      maximumValue={duration}
-      minimumTrackTintColor="#FFFFFF"
-      maximumTrackTintColor="#000000"
-      value={isSeeking ? seek : position}
-      onValueChange={value => {
-        TrackPlayer.pause();
-        setIsSeeking(true);
-        setSeek(value);
-      }}
-      onSlidingComplete={value => {
-        TrackPlayer.seekTo(value);
-        TrackPlayer.play();
-      }}
-    />
+    <>
+      <Slider
+        style={{
+          width: '100%',
+          height: 40,
+          justifyContent: 'center',
+        }}
+        minimumValue={0}
+        maximumValue={duration}
+        minimumTrackTintColor="#FFFFFF"
+        maximumTrackTintColor="#000000"
+        value={isSeeking ? seek : position}
+        onValueChange={value => {
+          TrackPlayer.pause();
+          setIsSeeking(true);
+          setSeek(value);
+        }}
+        onSlidingComplete={value => {
+          setSeek(value)
+          TrackPlayer.seekTo(value);
+          TrackPlayer.play();
+        }}
+      />
+    </>
   );
 };
 
@@ -65,15 +66,13 @@ ControlButton.propTypes = {
 export default function Player(props) {
   const playbackState = usePlaybackState();
   const [trackTitle, setTrackTitle] = useState('');
-  const [trackArtwork, setTrackArtwork] = useState();
   const [trackArtist, setTrackArtist] = useState('');
   useTrackPlayerEvents(['playback-track-changed'], async event => {
     if (event.type === TrackPlayer.TrackPlayerEvents.PLAYBACK_TRACK_CHANGED) {
       const track = await TrackPlayer.getTrack(event.nextTrack);
       const {title, artist, artwork} = track || {};
-      setTrackTitle(title);
-      setTrackArtist(artist);
-      setTrackArtwork(artwork);
+      setTrackTitle(trackTitle || title);
+      setTrackArtist(trackArtist || artist);
     }
   });
 
@@ -89,8 +88,7 @@ export default function Player(props) {
   }
 
   return (
-    <View style={{backgroundColor: 'green', width: '100%'}}>
-      <Image style={styles.cover} source={{uri: trackArtwork}} />
+    <View style={{width: '100%', alignItems: 'center'}}>
       <ProgressBar />
       <Text style={styles.title}>{trackTitle}</Text>
       <Text style={styles.artist}>{trackArtist}</Text>
