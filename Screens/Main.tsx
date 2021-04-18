@@ -145,7 +145,7 @@ interface State {
   isShowPlayer: boolean;
 }
 
-class SoundRecorder extends Component<any, State> {
+class MainScreen extends Component<any, State> {
   private audioRecorderPlayer: AudioRecorderPlayer;
 
   constructor(props: any) {
@@ -307,4 +307,4 @@ class SoundRecorder extends Component<any, State> {
   };
 }
 
-export default SoundRecorder;
+export default MainScreen;
