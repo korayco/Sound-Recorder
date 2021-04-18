@@ -17,7 +17,6 @@ import {
 import React, {Component} from 'react';
 import {ratio, screenWidth} from '../utils/Styles';
 
-import Button from '../Components/Button';
 import PlayerManager from '../Components/PlayerManager';
 const styles: any = StyleSheet.create({
   container: {
