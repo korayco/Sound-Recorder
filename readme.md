@@ -9,13 +9,15 @@
 * Yarn or npm (package manager)
 
 ## 🚀 Setup
-
+`
 git clone https://github.com/korayco/Sound-Recorder.git
 cd Sound-Recorder
 
 yarn install
 or
 npm install
+`
+
 ## Project Specifications:
 
 ### Versions:
