@@ -32,12 +32,12 @@ npm install
 ### Screens:
 
 * Main Screen:
-  Main screen is responsible for handling for sound recording and player of recorded sound
+    Main screen is responsible for handling for sound recording and player of recorded sound
 
-- onStartRecord
-  When sound record (play) button is clicked then the onStartRecord function fired which initially check the permissions after that its create an instance of audio recorder and an event listener is attached with it, as recording proceeds it update the recording time of the current state. It saves the recording on the device storage
-- onStopRecord
-  When stop button clicked the control is passed to the onStopRecord function, it takes the recorder instance and stop the recording.
+  * onStartRecord
+      When sound record (play) button is clicked then the onStartRecord function fired which initially check the permissions after that its create an instance of       audio recorder and an event listener is attached with it, as recording proceeds it update the recording time of the current state. It saves the recording         on the device storage
+  * onStopRecord
+      When stop button clicked the control is passed to the onStopRecord function, it takes the recorder instance and stop the recording.
 
 ### Components
 
